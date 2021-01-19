@@ -1,7 +1,7 @@
-var path,boy,cash,diamonds,jwellery,sword;
-var pathImg,boyImg,cashImg,diamondsImg,jwelleryImg,swordImg;
+var path, boy, cash, ruby, diamonds, jwellery, sword;
+var pathImg, boyImg, cashImg, rubyImg, diamondsImg, jwelleryImg, swordImg;
 var treasure = 0;
-var cashG,diamondsG,jwelleryG,swordGroup;
+var cashG, rubyG, diamondsG, jwelleryG, swordGroup;
 var PLAY = 1;
 var END = 0;
 var gameState = PLAY;
@@ -16,7 +16,7 @@ function preload(){
   jwelleryImg = loadImage("jwell.png");
   swordImg = loadImage("sword.png");
   gameOverImg =loadImage("gameOver.png");
- 
+  rubyImg = loadImage("ruby.png"); 
 }
 
 function setup(){
@@ -39,7 +39,7 @@ cashG=new Group();
 diamondsG=new Group();
 jwelleryG=new Group();
 swordGroup=new Group();
-
+rubyG =new Group();
 }
 
 
@@ -58,6 +58,7 @@ function draw() {
     createDiamonds();
     createJwellery();
     createSword();
+    createRuby();
     
      if (cashG.isTouching(boy)) {
       cashG.destroyEach();
@@ -70,8 +71,11 @@ function draw() {
       jwelleryG.destroyEach();
       treasure = treasure + 350;
     }else if(swordGroup.isTouching(boy)) {
-        swordGroup.destroyEach();
-        gameState = END;
+      swordGroup.destroyEach();
+      gameState = END;
+    }else if(rubyG.isTouching(boy)) {
+      rubyG.destroyEach();
+      treasure = treasure + 1000;
     }
   
   }
@@ -82,6 +86,7 @@ function draw() {
     diamondsG.destroyEach();
     jwelleryG.destroyEach();
     swordGroup.destroyEach();
+    rubyG.destroyEach();
     path.velocityY = 0;
     gameOver = createSprite(200, 200, 100, 100);
     gameOver.addImage(gameOverImg);
@@ -142,5 +147,16 @@ function createSword(){
   sword.velocityY = 3;
   sword.lifetime = 150;
   swordGroup.add(sword);
+  }
+}
+
+function createRuby() {
+  if (World.frameCount % 250 == 0) {
+  var ruby = createSprite(Math.round(random(50, 350),-20, 10, 10));
+  ruby.addImage(rubyImg);
+  ruby.scale=0.08;
+  ruby.velocityY = 3;
+  ruby.lifetime = 150;
+  rubyG.add(ruby);
   }
 }
